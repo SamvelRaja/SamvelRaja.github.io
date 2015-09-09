@@ -23,7 +23,8 @@ define('site/app', ['exports', 'ember', 'ember/resolver', 'ember/load-initialize
   App = Ember['default'].Application.extend({
     modulePrefix: config['default'].modulePrefix,
     podModulePrefix: config['default'].podModulePrefix,
-    Resolver: Resolver['default']
+    Resolver: Resolver['default'],
+    currentPath: ''
   });
 
   loadInitializers['default'](App, config['default'].modulePrefix);
@@ -45,11 +46,27 @@ define('site/components/app-version', ['exports', 'ember-cli-app-version/compone
   });
 
 });
+define('site/components/google-maps-addon', ['exports', 'ember', 'google-maps-addon/components/google-maps-addon'], function (exports, Ember, GoogleMapsAddon) {
+
+	'use strict';
+
+	exports['default'] = GoogleMapsAddon['default'];
+
+});
 define('site/components/gravatar-image', ['exports', 'ember-cli-gravatar/components/gravatar-image'], function (exports, gravatarImage) {
 
 	'use strict';
 
 	exports['default'] = gravatarImage['default'];
+
+});
+define('site/controllers/application', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Controller.extend({
+    current_path: 'Home'
+  });
 
 });
 define('site/controllers/array', ['exports', 'ember'], function (exports, Ember) {
@@ -66,7 +83,77 @@ define('site/controllers/object', ['exports', 'ember'], function (exports, Ember
 	exports['default'] = Ember['default'].Controller;
 
 });
-define('site/home/template', ['exports'], function (exports) {
+define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    inputObj: {
+      latitude: '12.976299881670053',
+      longitude: '80.13112306594849',
+      zoom: 7,
+      click: function click(rec_event) {
+        console.log('map_click' + rec_event);
+      },
+      dblclick: function dblclick(rec_event) {
+        console.log('map_double_click' + rec_event);
+      },
+      drag: function drag() {
+        console.log('map_drag');
+      },
+      dragend: function dragend() {
+        console.log('map_dragend');
+      },
+      dragstart: function dragstart() {
+        console.log('map_dragstart');
+      },
+      mousemove: function mousemove(rec_event) {
+        console.log('map_mousemove' + rec_event);
+      },
+      mouseout: function mouseout(rec_event) {
+        console.log('map_mouseout' + rec_event);
+      },
+      mouseover: function mouseover(rec_event) {
+        console.log('map_mouseover' + rec_event);
+      },
+      rightclick: function rightclick(rec_event) {
+        console.log('map_rightclick' + rec_event);
+      },
+      infowindow: {
+        content: '<div>Samvel</div>',
+        latitude: '12.976299881670053',
+        longitude: '80.13112306594849',
+        maxWidth: 20
+      },
+      markers: [{
+        latitude: '12.976299881670053',
+        longitude: '80.13112306594849',
+        title: 'first marker',
+        click: function click(rec_event) {
+          console.log('Marker_1_click' + rec_event);
+        },
+        animation: 'DROP',
+        timeout: 2000,
+        draggable: true,
+        infowindow: {
+          content: '<div>Marker 1</div>'
+        }
+      }, {
+        latitude: '13.976299881670053',
+        longitude: '80.13112306594849',
+        title: 'first marker',
+        click: function click(rec_event) {
+          console.log('Marker_2_Click' + rec_event);
+        },
+        animation: 'BOUNCE',
+        timeout: 4000,
+        draggable: false
+      }]
+    }
+  });
+
+});
+define('site/demos/googlemaps/map-component/template', ['exports'], function (exports) {
 
   'use strict';
 
@@ -81,11 +168,126 @@ define('site/home/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 20,
+            "line": 2,
             "column": 0
           }
         },
-        "moduleName": "site/home/template.hbs"
+        "moduleName": "site/demos/googlemaps/map-component/template.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [
+        ["inline","google-maps-addon",[],["MapOptions",["subexpr","@mut",[["get","inputObj",["loc",[null,[1,31],[1,39]]]]],[],[]]],["loc",[null,[1,0],[1,41]]]]
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('site/demos/googlemaps/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    beforeModel: function beforeModel() {
+      var appController = this.controllerFor('application');
+      appController.set('current_path', 'Demos/GoogleMaps');
+    }
+  });
+
+});
+define('site/demos/googlemaps/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "site/demos/googlemaps/template.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [
+        ["content","demos/googlemaps/map-component",["loc",[null,[1,0],[1,34]]]]
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('site/demos/md-cardlayout/component', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    classNames: 'mdl-cell mdl-cell--6-col mdl-card mdl-shadow--2dp'
+  });
+
+});
+define('site/demos/md-cardlayout/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 19,
+            "column": 0
+          }
+        },
+        "moduleName": "site/demos/md-cardlayout/template.hbs"
       },
       arity: 0,
       cachedFragment: null,
@@ -93,7 +295,6 @@ define('site/home/template', ['exports'], function (exports) {
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"class","mdl-cell mdl-cell--6-col mdl-grid demo-card-wide mdl-card mdl-shadow--2dp");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
@@ -102,7 +303,7 @@ define('site/home/template', ['exports'], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h2");
         dom.setAttribute(el3,"class","mdl-card__title-text");
-        var el4 = dom.createTextNode("Google Maps Addon");
+        var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
@@ -112,7 +313,11 @@ define('site/home/template', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2,"class","mdl-card__supporting-text");
-        var el3 = dom.createTextNode("\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n    Mauris sagittis pellentesque lacus eleifend lacinia...\n  ");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
@@ -123,7 +328,11 @@ define('site/home/template', ['exports'], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("a");
         dom.setAttribute(el3,"class","mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect");
-        var el4 = dom.createTextNode("\n      Get Started\n    ");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
@@ -141,13 +350,167 @@ define('site/home/template', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("i");
         dom.setAttribute(el4,"class","material-icons");
-        var el5 = dom.createTextNode("share");
+        var el5 = dom.createComment("");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [0]);
+        var element1 = dom.childAt(element0, [5, 1]);
+        var morphs = new Array(6);
+        morphs[0] = dom.createAttrMorph(element0, 'class');
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [1, 1]),0,0);
+        morphs[2] = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        morphs[3] = dom.createAttrMorph(element1, 'href');
+        morphs[4] = dom.createMorphAt(element1,1,1);
+        morphs[5] = dom.createMorphAt(dom.childAt(element0, [7, 1, 1]),0,0);
+        return morphs;
+      },
+      statements: [
+        ["attribute","class",["concat",[["get","cusotom_class",["loc",[null,[1,14],[1,27]]]]]]],
+        ["content","title",["loc",[null,[3,37],[3,46]]]],
+        ["content","description",["loc",[null,[6,4],[6,19]]]],
+        ["attribute","href",["get","button-link",["loc",[null,[9,88],[9,99]]]]],
+        ["content","button-link-label",["loc",[null,[10,6],[10,27]]]],
+        ["content","material-icon",["loc",[null,[15,32],[15,49]]]]
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('site/demos/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    beforeModel: function beforeModel() {
+      var appController = this.controllerFor('application');
+      appController.set('current_path', 'Demos');
+    }
+  });
+
+});
+define('site/demos/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 0
+          }
+        },
+        "moduleName": "site/demos/template.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","mdl-cell mdl-cell--6-col");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [
+        ["inline","demos/md-cardlayout",[],["title","google-maps-addon","description","A simple wrapper around the google maps js","button-link-label","View Demo","material-icon","share","cusotom_class","demo-card-wide","button-link","/#/demos/googlemaps"],["loc",[null,[1,0],[6,56]]]],
+        ["content","outlet",["loc",[null,[8,0],[8,10]]]]
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('site/helpers', ['exports', 'google-maps-addon/helpers'], function (exports, helpers) {
+
+	'use strict';
+
+
+
+	exports.Helpers = helpers.Helpers;
+
+});
+define('site/home/route', ['exports', 'ember'], function (exports, Ember) {
+
+	'use strict';
+
+	exports['default'] = Ember['default'].Route.extend({});
+
+});
+define('site/home/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 0
+          }
+        },
+        "moduleName": "site/home/template.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h1");
+        var el3 = dom.createTextNode("My GH Site ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -231,6 +594,11 @@ define('site/router', ['exports', 'ember', 'site/config/environment'], function 
 
   Router.map(function () {
     this.route('home', { path: '/' });
+    this.route('demos', {
+      resetNamespace: true
+    }, function () {
+      this.route('googlemaps');
+    });
   });
 
   exports['default'] = Router;
@@ -241,6 +609,86 @@ define('site/templates/application', ['exports'], function (exports) {
   'use strict';
 
   exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 18,
+              "column": 10
+            },
+            "end": {
+              "line": 18,
+              "column": 178
+            }
+          },
+          "moduleName": "site/templates/application.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1,"class","mdl-color-text--grey material-icons");
+          dom.setAttribute(el1,"role","presentation");
+          var el2 = dom.createTextNode("home");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("Home");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child1 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 19,
+              "column": 10
+            },
+            "end": {
+              "line": 19,
+              "column": 185
+            }
+          },
+          "moduleName": "site/templates/application.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1,"class","mdl-color-text--grey material-icons");
+          dom.setAttribute(el1,"role","presentation");
+          var el2 = dom.createTextNode("computer");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("Demos");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
     return {
       meta: {
         "revision": "Ember@1.13.7",
@@ -251,7 +699,7 @@ define('site/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 41,
+            "line": 42,
             "column": 0
           }
         },
@@ -278,7 +726,7 @@ define('site/templates/application', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("span");
         dom.setAttribute(el4,"class","mdl-layout-title");
-        var el5 = dom.createTextNode("Home");
+        var el5 = dom.createComment("");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n          ");
@@ -319,33 +767,13 @@ define('site/templates/application', ['exports'], function (exports) {
         dom.setAttribute(el3,"class","demo-navigation mdl-navigation mdl-color--white");
         var el4 = dom.createTextNode("\n          ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4,"class","mdl-navigation__link mdl-color-text--grey");
-        dom.setAttribute(el4,"href","");
-        var el5 = dom.createElement("i");
-        dom.setAttribute(el5,"class","mdl-color-text--grey material-icons");
-        dom.setAttribute(el5,"role","presentation");
-        var el6 = dom.createTextNode("home");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("Home");
-        dom.appendChild(el4, el5);
+        var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n          ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4,"class","mdl-navigation__link mdl-color-text--grey");
-        dom.setAttribute(el4,"href","");
-        var el5 = dom.createElement("i");
-        dom.setAttribute(el5,"class","mdl-color-text--grey material-icons");
-        dom.setAttribute(el5,"role","presentation");
-        var el6 = dom.createTextNode("people");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("Social");
-        dom.appendChild(el4, el5);
+        var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n          ");
+        var el4 = dom.createTextNode("\n\n          ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4,"class","mdl-layout-spacer");
@@ -434,14 +862,65 @@ define('site/templates/application', ['exports'], function (exports) {
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [1]);
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [3, 1]),1,1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [5, 1]),1,1);
+        var element1 = dom.childAt(element0, [3]);
+        var element2 = dom.childAt(element1, [3]);
+        var morphs = new Array(5);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1, 1, 1]),0,0);
+        morphs[1] = dom.createMorphAt(dom.childAt(element1, [1]),1,1);
+        morphs[2] = dom.createMorphAt(element2,1,1);
+        morphs[3] = dom.createMorphAt(element2,3,3);
+        morphs[4] = dom.createMorphAt(dom.childAt(element0, [5, 1]),1,1);
         return morphs;
       },
       statements: [
+        ["content","current_path",["loc",[null,[4,41],[4,57]]]],
         ["inline","gravatar-image",[],["email","kingsam91@gmail.com","size",30,"class","demo-avatar","retina",true],["loc",[null,[10,10],[13,40]]]],
-        ["content","outlet",["loc",[null,[37,10],[37,20]]]]
+        ["block","link-to",["home"],["current-when","home","class","mdl-navigation__link mdl-color-text--grey"],0,null,["loc",[null,[18,10],[18,190]]]],
+        ["block","link-to",["demos"],["current-when","demos","class","mdl-navigation__link mdl-color-text--grey"],1,null,["loc",[null,[19,10],[19,197]]]],
+        ["content","outlet",["loc",[null,[38,10],[38,20]]]]
+      ],
+      locals: [],
+      templates: [child0, child1]
+    };
+  }()));
+
+});
+define('site/templates/components/google-maps-addon', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "site/templates/components/google-maps-addon.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","map-canvas");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() { return []; },
+      statements: [
+
       ],
       locals: [],
       templates: []
@@ -456,6 +935,56 @@ define('site/tests/app.jshint', function () {
   QUnit.module('JSHint - .');
   QUnit.test('app.js should pass jshint', function(assert) { 
     assert.ok(true, 'app.js should pass jshint.'); 
+  });
+
+});
+define('site/tests/controllers/application.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - controllers');
+  QUnit.test('controllers/application.js should pass jshint', function(assert) { 
+    assert.ok(false, 'controllers/application.js should pass jshint.\ncontrollers/application.js: line 1, col 26, Missing semicolon.\n\n1 error'); 
+  });
+
+});
+define('site/tests/demos/googlemaps/map-component/component.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - demos/googlemaps/map-component');
+  QUnit.test('demos/googlemaps/map-component/component.js should pass jshint', function(assert) { 
+    assert.ok(true, 'demos/googlemaps/map-component/component.js should pass jshint.'); 
+  });
+
+});
+define('site/tests/demos/googlemaps/route.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - demos/googlemaps');
+  QUnit.test('demos/googlemaps/route.js should pass jshint', function(assert) { 
+    assert.ok(true, 'demos/googlemaps/route.js should pass jshint.'); 
+  });
+
+});
+define('site/tests/demos/md-cardlayout/component.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - demos/md-cardlayout');
+  QUnit.test('demos/md-cardlayout/component.js should pass jshint', function(assert) { 
+    assert.ok(true, 'demos/md-cardlayout/component.js should pass jshint.'); 
+  });
+
+});
+define('site/tests/demos/route.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - demos');
+  QUnit.test('demos/route.js should pass jshint', function(assert) { 
+    assert.ok(true, 'demos/route.js should pass jshint.'); 
   });
 
 });
@@ -516,6 +1045,16 @@ define('site/tests/helpers/start-app.jshint', function () {
   });
 
 });
+define('site/tests/home/route.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - home');
+  QUnit.test('home/route.js should pass jshint', function(assert) { 
+    assert.ok(true, 'home/route.js should pass jshint.'); 
+  });
+
+});
 define('site/tests/router.jshint', function () {
 
   'use strict';
@@ -571,7 +1110,7 @@ catch(err) {
 if (runningTests) {
   require("site/tests/test-helper");
 } else {
-  require("site/app")["default"].create({"name":"site","version":"0.0.0+3576db50"});
+  require("site/app")["default"].create({"name":"site","version":"0.0.0+6cd9e8f3"});
 }
 
 /* jshint ignore:end */

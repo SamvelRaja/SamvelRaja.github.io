@@ -8,10 +8,10 @@ module.exports = function(environment) {
     locationType: 'hash',
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' www.storage.googleapis.com",
-      'font-src': "'self' www.fonts.googleapis.com",
+      'script-src': "'self' www.storage.googleapis.com www.maps.googleapis.com",
+      'font-src': "'self' www.fonts.googleapis.com www.maps.googleapis.com",
       'connect-src': "'self'",
-      'img-src': "'self' www.gravatar.com",
+      'img-src': "'self' www.gravatar.com www.maps.googleapis.com",
       'style-src': "'self' www.fonts.googleapis.com www.storage.googleapis.com",
       'media-src': "'self'"
     },

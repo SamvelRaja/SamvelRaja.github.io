@@ -7,6 +7,11 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('home', { path: '/' });
+  this.route('demos',{
+    resetNamespace: true
+  },function() {
+    this.route('googlemaps');
+    });
 });
 
 export default Router;
