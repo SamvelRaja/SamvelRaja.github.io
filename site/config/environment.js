@@ -8,11 +8,11 @@ module.exports = function(environment) {
     locationType: 'hash',
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self'",
-      'font-src': "'self'",
+      'script-src': "'self' www.storage.googleapis.com",
+      'font-src': "'self' www.fonts.googleapis.com",
       'connect-src': "'self'",
       'img-src': "'self' www.gravatar.com",
-      'style-src': "'self'",
+      'style-src': "'self' www.fonts.googleapis.com www.storage.googleapis.com",
       'media-src': "'self'"
     },
     EmberENV: {
