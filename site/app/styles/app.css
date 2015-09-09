@@ -1,0 +1,20 @@
+.sticky-navbar{
+  background-color: #fff;
+  z-index: 1000;
+  border-bottom: 1px solid #ededed;
+  min-height: 30px;
+  padding: 10px;
+  margin-bottom: 20px;
+  -webkit-box-shadow: 0 8px 6px -6px grey;
+	   -moz-box-shadow: 0 8px 6px -6px grey;
+	        box-shadow: 0 8px 6px -6px grey;
+}
+.avatar{
+  float : right;
+}
+.gravatar-image{
+  border-radius: 50%;
+}
+.menu{
+  float:left;
+}
