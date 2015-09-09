@@ -45,6 +45,13 @@ define('site/components/app-version', ['exports', 'ember-cli-app-version/compone
   });
 
 });
+define('site/components/gravatar-image', ['exports', 'ember-cli-gravatar/components/gravatar-image'], function (exports, gravatarImage) {
+
+	'use strict';
+
+	exports['default'] = gravatarImage['default'];
+
+});
 define('site/controllers/array', ['exports', 'ember'], function (exports, Ember) {
 
 	'use strict';
@@ -57,6 +64,46 @@ define('site/controllers/object', ['exports', 'ember'], function (exports, Ember
 	'use strict';
 
 	exports['default'] = Ember['default'].Controller;
+
+});
+define('site/home/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "site/home/template.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("List of demos\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() { return []; },
+      statements: [
+
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
 
 });
 define('site/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'site/config/environment'], function (exports, initializerFactory, config) {
@@ -121,7 +168,9 @@ define('site/router', ['exports', 'ember', 'site/config/environment'], function 
     location: config['default'].locationType
   });
 
-  Router.map(function () {});
+  Router.map(function () {
+    this.route('home', { path: '/' });
+  });
 
   exports['default'] = Router;
 
@@ -141,7 +190,7 @@ define('site/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 4,
+            "line": 13,
             "column": 0
           }
         },
@@ -152,26 +201,53 @@ define('site/templates/application', ['exports'], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h2");
-        dom.setAttribute(el1,"id","title");
-        var el2 = dom.createTextNode("Welcome to Ember");
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","sticky-navbar");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","menu");
+        var el3 = dom.createTextNode("Home");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","avatar");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","body");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(fragment,2,2,contextualElement);
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 3]),1,1);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
         return morphs;
       },
       statements: [
-        ["content","outlet",["loc",[null,[3,0],[3,10]]]]
+        ["inline","gravatar-image",[],["email","kingsam91@gmail.com","size",30],["loc",[null,[4,4],[6,6]]]],
+        ["content","outlet",["loc",[null,[11,0],[11,10]]]]
       ],
       locals: [],
       templates: []
@@ -301,7 +377,7 @@ catch(err) {
 if (runningTests) {
   require("site/tests/test-helper");
 } else {
-  require("site/app")["default"].create({"name":"site","version":"0.0.0+39dfb00c"});
+  require("site/app")["default"].create({"name":"site","version":"0.0.0+7abc7947"});
 }
 
 /* jshint ignore:end */
