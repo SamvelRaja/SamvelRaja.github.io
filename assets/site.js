@@ -510,7 +510,7 @@ define('site/home/template', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h1");
-        var el3 = dom.createTextNode("My GH Site ");
+        var el3 = dom.createTextNode("[WIP] My GH Site ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -559,7 +559,7 @@ define('site/initializers/export-application-global', ['exports', 'ember', 'site
       if (typeof value === 'string') {
         globalName = value;
       } else {
-        globalName = Ember['default'].String.classify(config['default'].modulePrefix);
+        globalName = Ember['default'].String.classify(config['defmault'].modulePrefix);
       }
 
       if (!window[globalName]) {
