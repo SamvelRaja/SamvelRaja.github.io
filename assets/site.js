@@ -510,7 +510,7 @@ define('site/home/template', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h1");
-        var el3 = dom.createTextNode("[WIP] My GH Site ");
+        var el3 = dom.createTextNode("[WIP]My GH Site ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -559,7 +559,7 @@ define('site/initializers/export-application-global', ['exports', 'ember', 'site
       if (typeof value === 'string') {
         globalName = value;
       } else {
-        globalName = Ember['default'].String.classify(config['defmault'].modulePrefix);
+        globalName = Ember['default'].String.classify(config['default'].modulePrefix);
       }
 
       if (!window[globalName]) {
@@ -933,8 +933,8 @@ define('site/tests/app.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - .');
-  QUnit.test('app.js should pass jshint', function(assert) { 
-    assert.ok(true, 'app.js should pass jshint.'); 
+  QUnit.test('app.js should pass jshint', function(assert) {
+    assert.ok(true, 'app.js should pass jshint.');
   });
 
 });
@@ -943,8 +943,8 @@ define('site/tests/controllers/application.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - controllers');
-  QUnit.test('controllers/application.js should pass jshint', function(assert) { 
-    assert.ok(false, 'controllers/application.js should pass jshint.\ncontrollers/application.js: line 1, col 26, Missing semicolon.\n\n1 error'); 
+  QUnit.test('controllers/application.js should pass jshint', function(assert) {
+    assert.ok(false, 'controllers/application.js should pass jshint.\ncontrollers/application.js: line 1, col 26, Missing semicolon.\n\n1 error');
   });
 
 });
@@ -953,8 +953,8 @@ define('site/tests/demos/googlemaps/map-component/component.jshint', function ()
   'use strict';
 
   QUnit.module('JSHint - demos/googlemaps/map-component');
-  QUnit.test('demos/googlemaps/map-component/component.js should pass jshint', function(assert) { 
-    assert.ok(true, 'demos/googlemaps/map-component/component.js should pass jshint.'); 
+  QUnit.test('demos/googlemaps/map-component/component.js should pass jshint', function(assert) {
+    assert.ok(true, 'demos/googlemaps/map-component/component.js should pass jshint.');
   });
 
 });
@@ -963,8 +963,8 @@ define('site/tests/demos/googlemaps/route.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - demos/googlemaps');
-  QUnit.test('demos/googlemaps/route.js should pass jshint', function(assert) { 
-    assert.ok(true, 'demos/googlemaps/route.js should pass jshint.'); 
+  QUnit.test('demos/googlemaps/route.js should pass jshint', function(assert) {
+    assert.ok(true, 'demos/googlemaps/route.js should pass jshint.');
   });
 
 });
@@ -973,8 +973,8 @@ define('site/tests/demos/md-cardlayout/component.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - demos/md-cardlayout');
-  QUnit.test('demos/md-cardlayout/component.js should pass jshint', function(assert) { 
-    assert.ok(true, 'demos/md-cardlayout/component.js should pass jshint.'); 
+  QUnit.test('demos/md-cardlayout/component.js should pass jshint', function(assert) {
+    assert.ok(true, 'demos/md-cardlayout/component.js should pass jshint.');
   });
 
 });
@@ -983,8 +983,8 @@ define('site/tests/demos/route.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - demos');
-  QUnit.test('demos/route.js should pass jshint', function(assert) { 
-    assert.ok(true, 'demos/route.js should pass jshint.'); 
+  QUnit.test('demos/route.js should pass jshint', function(assert) {
+    assert.ok(true, 'demos/route.js should pass jshint.');
   });
 
 });
@@ -1007,8 +1007,8 @@ define('site/tests/helpers/resolver.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - helpers');
-  QUnit.test('helpers/resolver.js should pass jshint', function(assert) { 
-    assert.ok(true, 'helpers/resolver.js should pass jshint.'); 
+  QUnit.test('helpers/resolver.js should pass jshint', function(assert) {
+    assert.ok(true, 'helpers/resolver.js should pass jshint.');
   });
 
 });
@@ -1040,8 +1040,8 @@ define('site/tests/helpers/start-app.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - helpers');
-  QUnit.test('helpers/start-app.js should pass jshint', function(assert) { 
-    assert.ok(true, 'helpers/start-app.js should pass jshint.'); 
+  QUnit.test('helpers/start-app.js should pass jshint', function(assert) {
+    assert.ok(true, 'helpers/start-app.js should pass jshint.');
   });
 
 });
@@ -1050,8 +1050,8 @@ define('site/tests/home/route.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - home');
-  QUnit.test('home/route.js should pass jshint', function(assert) { 
-    assert.ok(true, 'home/route.js should pass jshint.'); 
+  QUnit.test('home/route.js should pass jshint', function(assert) {
+    assert.ok(true, 'home/route.js should pass jshint.');
   });
 
 });
@@ -1060,8 +1060,8 @@ define('site/tests/router.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - .');
-  QUnit.test('router.js should pass jshint', function(assert) { 
-    assert.ok(true, 'router.js should pass jshint.'); 
+  QUnit.test('router.js should pass jshint', function(assert) {
+    assert.ok(true, 'router.js should pass jshint.');
   });
 
 });
@@ -1077,8 +1077,8 @@ define('site/tests/test-helper.jshint', function () {
   'use strict';
 
   QUnit.module('JSHint - .');
-  QUnit.test('test-helper.js should pass jshint', function(assert) { 
-    assert.ok(true, 'test-helper.js should pass jshint.'); 
+  QUnit.test('test-helper.js should pass jshint', function(assert) {
+    assert.ok(true, 'test-helper.js should pass jshint.');
   });
 
 });
@@ -1110,7 +1110,7 @@ catch(err) {
 if (runningTests) {
   require("site/tests/test-helper");
 } else {
-  require("site/app")["default"].create({"name":"site","version":"0.0.0+6cd9e8f3"});
+  require("site/app")["default"].create({"name":"site","version":"0.0.0+8dd46014"});
 }
 
 /* jshint ignore:end */
