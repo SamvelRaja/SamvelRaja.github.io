@@ -1,42 +1,44 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  inputObj : {
+  doStuffWhenInserted: Ember.on('willRender', function() {
+    var self = this;
+    this.set('inputObj',{
       latitude : '12.976299881670053',
       longitude : '80.13112306594849',
       zoom : 7,
       click : function(rec_event){
-        console.log('map_click' + rec_event);
+        self.set('mapMessage','map_click');
       },
       dblclick : function(rec_event){
-        console.log('map_double_click' + rec_event);
+        self.set('mapMessage','map_double_click');
       },
       drag : function(){
-        console.log('map_drag');
+        self.set('mapMessage','map_drag');
       },
       dragend : function(){
-        console.log('map_dragend');
+        self.set('mapMessage','map_dragend');
       },
       dragstart : function(){
-        console.log('map_dragstart');
+        self.set('mapMessage','map_dragstart');
       },
       mousemove : function(rec_event){
-        console.log('map_mousemove' + rec_event);
+        self.set('mapMessage','map_mousemove');
       },
       mouseout : function(rec_event){
-        console.log('map_mouseout' + rec_event);
+        self.set('mapMessage','map_mouseout');
       },
       mouseover : function(rec_event){
-        console.log('map_mouseover' + rec_event);
+        self.set('mapMessage','map_mouseover');
       },
       rightclick : function(rec_event){
-        console.log('map_rightclick' + rec_event);
+        self.set('mapMessage','map_rightclick');
       },
       infowindow : {
-        content : '<div>Samvel</div>',
-        latitude : '12.976299881670053',
+        content : '<div>Info window</div>',
+        latitude : '11.976299881670053',
         longitude : '80.13112306594849',
-        maxWidth : 20,
+        maxWidth : 500,
       },
       markers :[
         {
@@ -44,7 +46,7 @@ export default Ember.Component.extend({
           longitude : '80.13112306594849',
           title : 'first marker',
           click : function(rec_event){
-            console.log('Marker_1_click' + rec_event);
+            self.set('mapMessage','Marker_1_click' + rec_event);
           },
           animation : 'DROP',
           timeout : 2000,
@@ -58,12 +60,13 @@ export default Ember.Component.extend({
           longitude : '80.13112306594849',
           title : 'first marker',
           click : function(rec_event){
-            console.log('Marker_2_Click' + rec_event);
+            self.set('mapMessage','Marker_2_Click' + rec_event);
           },
           animation : 'BOUNCE',
           timeout : 4000,
           draggable : false
         }
      ]
-    }
+   });
+ })
   });

@@ -1,9 +1,11 @@
-{{demos/md-cardlayout title="google-maps-addon"
-                     description= "A simple wrapper around the google maps js"
+{{#if isDetails}}
+{{demos/md-cardlayout title="Google Maps Ember Addon"
+                     description= "An Ember addon which is a simple wrapper around the googlemaps.js for easy usage in an ember application"
                      button-link-label="View Demo"
                      material-icon="share"
-                     cusotom_class="demo-card-wide"
+                     custom_class="demo-card-wide"
                      button-link="/#/demos/googlemaps"}}
+{{/if}}
 <div class="mdl-cell mdl-cell--6-col">
 {{outlet}}
 </div>
