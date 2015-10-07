@@ -87073,6 +87073,234 @@ define('ember-cli-gravatar/components/gravatar-image', ['exports', 'ember', 'md5
   });
 
 });
+define('google-maps-addon', ['google-maps-addon/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {
+  'use strict';
+  var keys = Object.keys || __Ember__['default'].keys;
+  var forEach = Array.prototype.forEach && function(array, cb) {
+    array.forEach(cb);
+  } || __Ember__['default'].EnumerableUtils.forEach;
+
+  forEach(keys(__index__), (function(key) {
+    __exports__[key] = __index__[key];
+  }));
+});
+
+define('google-maps-addon/components/google-maps-addon', ['exports', 'ember', 'google-maps-addon/helpers'], function (exports, Ember, Helpers) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    didInsertElement: function didInsertElement() {
+      var map_element;
+      //Initializing the options into the context
+      Helpers['default'].initializeOptions(this);
+      //Checking for the availability of googlemaps js the hero
+      if (window.google) {
+        map_element = Helpers['default'].createMapElement(this);
+
+        //Setting up the map_element in the context
+        if (map_element) {
+          this.set('map_element', map_element);
+          var marker_options = this.get('markerOptions');
+          Helpers['default'].initializeMouseEventCallbacks(this);
+          if (marker_options) {
+            Helpers['default'].drawAllMarkers(this);
+          }
+          Helpers['default'].initializeInfowindow(this);
+        }
+      } else {
+        console.error('Need to include the googlemaps js');
+      }
+    }
+  });
+
+});
+define('google-maps-addon/helpers', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  /**
+  @let mouseEvents
+  @type array
+  Supported mouse events by googlemaps
+    ref 'https://developers.google.com/maps/documentation/javascript/reference#events_50'
+  **/
+  var mouseEvents = ['click', 'dblclick', 'drag', 'dragend', 'dragstart', 'mousemove', 'mouseout', 'mouseover', 'rightclick'];
+
+  exports['default'] = {
+    /**
+    @method initializeOptions
+    @param context
+    @usage
+      To initialize the `MapOptions` as `context' properties`
+    **/
+    initializeOptions: function initializeOptions(context) {
+      var map_options = context.get('MapOptions');
+      //First preference is to 'markers' array over the 'marker' object
+      var marker_options = map_options.markers;
+      context.setProperties({
+        latitude: map_options.latitude || '0',
+        longitude: map_options.longitude || '0',
+        zoom: map_options.zoom || 8
+      });
+      if (marker_options instanceof Array && !Ember['default'].isEmpty(marker_options)) {
+        context.set('markerOptions', marker_options);
+      }
+    },
+    /**
+    @method createMapElement
+    @param context
+    @usage
+      To create a map element using mapOptions
+      It creates the map element in the $(div.map-canvas)
+    @return map (google map element for other handlings)
+    **/
+    createMapElement: function createMapElement(context) {
+      var mapOptions = {
+        center: new google.maps.LatLng(context.get('latitude'), context.get('longitude')),
+        zoom: context.get('zoom'),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map_element = context.$('div.map-canvas')[0];
+      var map = new google.maps.Map(map_element, mapOptions);
+      return map;
+    },
+    /**
+    @method initializeMouseEventCallbacks
+    @param context
+    @usage
+      To initialize the `mouseevents` to the `map_element`
+    **/
+    initializeMouseEventCallbacks: function initializeMouseEventCallbacks(context) {
+      var map_options = context.get('MapOptions');
+      var map_element = context.get('map_element');
+      mouseEvents.forEach(function (event) {
+        if (map_options[event]) {
+          if (typeof map_options[event] === 'function') {
+            google.maps.event.addListener(map_element, event, map_options[event]);
+          }
+        }
+      });
+    },
+    /**
+    @method drawAllMarkers
+    @param context
+    @usage
+      To draw the `markers` to the `map_element`
+    **/
+    drawAllMarkers: function drawAllMarkers(context) {
+      var marker_options = context.get('markerOptions');
+      var markers = [];
+      var self = this;
+      for (var i = 0; i < marker_options.length; i++) {
+        markers[i] = self.drawMarker(context, marker_options[i]);
+      }
+      context.set('markers', markers);
+    },
+    /**
+    @method drawMarker
+    @param context,marker_options
+    @usage
+      To draw the `marker` to the `map_element`
+    **/
+    drawMarker: function drawMarker(context, marker_options) {
+      var map_element = context.get('map_element');
+      var latitude = marker_options.latitude || context.get('latitude');
+      var longitude = marker_options.longitude || context.get('longitude');
+      var animationIndex = google.maps.Animation[marker_options.animation] || null;
+      var timeout = marker_options.timeout || 0;
+      var image_path = marker_options.icon || '//mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1';
+      var draggable = marker_options.draggable || false;
+      var self = this;
+      var myLatlng = new google.maps.LatLng(latitude, longitude);
+      var marker;
+      window.setTimeout(function () {
+        marker = new google.maps.Marker({
+          position: myLatlng,
+          animation: animationIndex,
+          map: map_element,
+          draggable: draggable,
+          title: marker_options.title || '',
+          icon: image_path
+        });
+        marker = self.initializeMarkerMouseEventCallbacks(context, marker, marker_options);
+        return marker;
+      }, timeout);
+    },
+
+    /**
+    @method initializeMarkerMouseEventCallbacks
+    @param context,marker,marker_options
+    @usage
+      To initialize the `markermouseevents` to the `marker_obj`
+    **/
+    initializeMarkerMouseEventCallbacks: function initializeMarkerMouseEventCallbacks(context, marker, marker_options) {
+      mouseEvents.forEach(function (event) {
+        if (marker_options[event]) {
+          if (typeof marker_options[event] === 'function') {
+            google.maps.event.addListener(marker, event, marker_options[event]);
+          }
+        }
+      });
+      return marker;
+    },
+    /**
+    @method initializeInfowindow
+    @param context
+    @usage
+      To create and the info window
+    **/
+    initializeInfowindow: function initializeInfowindow(context) {
+      var map_element = context.get('map_element');
+      var map_options = context.get('MapOptions');
+      var info_window_options = map_options.infowindow;
+      if (info_window_options) {
+        var longitude = info_window_options.longitude || context.get('longitude');
+        var latitude = info_window_options.latitude || context.get('latitude');
+        var info_postion = new google.maps.LatLng(latitude, longitude);
+        if (info_window_options instanceof Object && !(info_window_options instanceof Array)) {
+          var infoWindow = new google.maps.InfoWindow({
+            content: info_window_options.content || 'empty content',
+            position: info_postion,
+            pixelOffset: info_window_options.pixelOffset || undefined,
+            maxWidth: info_window_options.maxWidth || undefined
+          });
+          infoWindow.open(map_element);
+        }
+      }
+    },
+
+    /**
+    @method clearAllMarkers
+    @param context
+    @usage
+      To clear All the Markers from the map.
+      Have to find a way to hook this function
+    **/
+    clearAllMarkers: function clearAllMarkers(context) {
+      var markers = context.get('markers');
+      if (markers instanceof Array) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i] = this.clearMarker(markers[i]);
+        }
+      } else {
+        markers = this.clearMarker(markers);
+      }
+      context.set('markers', markers);
+    },
+    /**
+    @method clearMarker
+    @param marker
+    @usage
+      To clear the Marker from the map.
+      Have to find a way to hook this function
+    **/
+    clearMarker: function clearMarker(marker) {
+      marker.setMap(null);
+    }
+  };
+
+});
 ;/* jshint ignore:start */
 
 
