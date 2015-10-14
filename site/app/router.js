@@ -11,6 +11,7 @@ Router.map(function() {
     resetNamespace: true
   },function() {
     this.route('googlemaps');
+    this.route('jq-slide');
     });
 });
 

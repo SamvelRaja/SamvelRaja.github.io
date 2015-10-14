@@ -7,6 +7,10 @@
   color: #4A148C;
 }
 
+.jq-card  > .mdl-card__title {
+  background: url('../assets/images/slide.png') center / cover;
+}
+
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *

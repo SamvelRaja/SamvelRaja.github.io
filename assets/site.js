@@ -180,7 +180,7 @@ define('site/demos/googlemaps/map-component/template', ['exports'], function (ex
             "column": 0
           },
           "end": {
-            "line": 6,
+            "line": 5,
             "column": 0
           }
         },
@@ -191,10 +191,6 @@ define('site/demos/googlemaps/map-component/template', ['exports'], function (ex
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -213,17 +209,15 @@ define('site/demos/googlemaps/map-component/template', ['exports'], function (ex
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(3);
+        var morphs = new Array(2);
         morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
-        morphs[1] = dom.createMorphAt(fragment,2,2,contextualElement);
-        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]),1,1);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
       statements: [
-        ["inline","log",[["get","inputObj",["loc",[null,[1,6],[1,14]]]]],[],["loc",[null,[1,0],[1,16]]]],
-        ["inline","google-maps-addon",[],["MapOptions",["subexpr","@mut",[["get","inputObj",["loc",[null,[2,31],[2,39]]]]],[],[]]],["loc",[null,[2,0],[2,41]]]],
-        ["content","mapMessage",["loc",[null,[4,2],[4,16]]]]
+        ["inline","google-maps-addon",[],["MapOptions",["subexpr","@mut",[["get","inputObj",["loc",[null,[1,31],[1,39]]]]],[],[]]],["loc",[null,[1,0],[1,41]]]],
+        ["content","mapMessage",["loc",[null,[3,2],[3,16]]]]
       ],
       locals: [],
       templates: []
@@ -292,6 +286,192 @@ define('site/demos/googlemaps/template', ['exports'], function (exports) {
       },
       statements: [
         ["content","demos/googlemaps/map-component",["loc",[null,[1,0],[1,34]]]]
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('site/demos/jq-slide/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    beforeModel: function beforeModel() {
+      var appController = this.controllerFor('application');
+      appController.setProperties({
+        current_path: 'Demos/jqSlide',
+        isDetails: false
+      });
+      var detailsappController = this.controllerFor('demos');
+      detailsappController.set('isDetails', false);
+    },
+    deactivate: function deactivate() {
+      var detailsappController = this.controllerFor('demos');
+      detailsappController.set('isDetails', true);
+    }
+  });
+
+});
+define('site/demos/jq-slide/slider/component', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    doStuffWhenInserted: Ember['default'].on('didRender', function () {
+      $('#slider').jqSlide();
+    })
+  });
+
+});
+define('site/demos/jq-slide/slider/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 21,
+            "column": 0
+          }
+        },
+        "moduleName": "site/demos/jq-slide/slider/template.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","main-wrapper");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","wrapper");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3,"id","slider");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("h1");
+        var el5 = dom.createTextNode(" Slide 1 ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("p");
+        var el5 = dom.createTextNode("\n        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("h1");
+        var el5 = dom.createTextNode(" Slide 2 ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("p");
+        var el5 = dom.createTextNode("\n        Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus. Nullam accumsan lorem in dui. Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac dui quis mi consectetuer lacinia.\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("h1");
+        var el5 = dom.createTextNode(" Slide 3 ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("p");
+        var el5 = dom.createTextNode("\n        Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Praesent adipiscing. Phasellus ullamcorper ipsum rutrum nunc. Nunc nonummy metus. Vestibulum volutpat pretium libero. Cras id dui. Aenean ut eros et nisl sagittis vestibulum. Nullam nulla eros, ultricies sit amet, nonummy id, imperdiet feugiat, pede. Sed lectus. Donec mollis hendrerit risus. Phasellus nec sem in justo pellentesque facilisis. Etiam imperdiet imperdiet orci. Nunc nec neque. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi.      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("h1");
+        var el5 = dom.createTextNode(" Slide 4 ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("p");
+        var el5 = dom.createTextNode("\n        Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Maecenas malesuada. Praesent congue erat at massa. Sed cursus turpis vitae tortor. Donec posuere vulputate arcu. Phasellus accumsan cursus velit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed aliquam, nisi quis porttitor congue, elit erat euismod orci, ac placerat dolor lectus quis orci. Phasellus consectetuer vestibulum elit. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Vestibulum fringilla pede sit amet augue. In turpis. Pellentesque posuere. Praesent turpis.      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() { return []; },
+      statements: [
+
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('site/demos/jq-slide/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "site/demos/jq-slide/template.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [
+        ["content","demos/jq-slide/slider",["loc",[null,[1,0],[1,25]]]]
       ],
       locals: [],
       templates: []
@@ -440,7 +620,7 @@ define('site/demos/template', ['exports'], function (exports) {
               "column": 0
             },
             "end": {
-              "line": 8,
+              "line": 14,
               "column": 0
             }
           },
@@ -455,16 +635,22 @@ define('site/demos/template', ['exports'], function (exports) {
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
+          var morphs = new Array(2);
           morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+          morphs[1] = dom.createMorphAt(fragment,2,2,contextualElement);
           dom.insertBoundary(fragment, 0);
           return morphs;
         },
         statements: [
-          ["inline","demos/md-cardlayout",[],["title","Google Maps Ember Addon","description","An Ember addon which is a simple wrapper around the googlemaps.js for easy usage in an ember application","button-link-label","View Demo","material-icon","share","custom_class","demo-card-wide","button-link","/#/demos/googlemaps"],["loc",[null,[2,0],[7,56]]]]
+          ["inline","demos/md-cardlayout",[],["title","Google Maps Ember Addon","description","An Ember addon which is a simple wrapper around the googlemaps.js for easy usage in an ember application","button-link-label","View Demo","material-icon","share","custom_class","demo-card-wide","button-link","/#/demos/googlemaps"],["loc",[null,[2,0],[7,56]]]],
+          ["inline","demos/md-cardlayout",[],["title","Jquery Slider","description","Jquery plugin for a slider component.","button-link-label","View Demo","material-icon","share","custom_class","demo-card-wide jq-card","button-link","/#/demos/jq-slide"],["loc",[null,[8,0],[13,55]]]]
         ],
         locals: [],
         templates: []
@@ -480,7 +666,7 @@ define('site/demos/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 12,
+            "line": 18,
             "column": 0
           }
         },
@@ -514,8 +700,8 @@ define('site/demos/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","if",[["get","isDetails",["loc",[null,[1,6],[1,15]]]]],[],0,null,["loc",[null,[1,0],[8,7]]]],
-        ["content","outlet",["loc",[null,[10,0],[10,10]]]]
+        ["block","if",[["get","isDetails",["loc",[null,[1,6],[1,15]]]]],[],0,null,["loc",[null,[1,0],[14,7]]]],
+        ["content","outlet",["loc",[null,[16,0],[16,10]]]]
       ],
       locals: [],
       templates: [child0]
@@ -657,6 +843,7 @@ define('site/router', ['exports', 'ember', 'site/config/environment'], function 
       resetNamespace: true
     }, function () {
       this.route('googlemaps');
+      this.route('jq-slide');
     });
   });
 
@@ -1037,6 +1224,26 @@ define('site/tests/demos/googlemaps/route.jshint', function () {
   });
 
 });
+define('site/tests/demos/jq-slide/route.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - demos/jq-slide');
+  QUnit.test('demos/jq-slide/route.js should pass jshint', function(assert) { 
+    assert.ok(true, 'demos/jq-slide/route.js should pass jshint.'); 
+  });
+
+});
+define('site/tests/demos/jq-slide/slider/component.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - demos/jq-slide/slider');
+  QUnit.test('demos/jq-slide/slider/component.js should pass jshint', function(assert) { 
+    assert.ok(false, 'demos/jq-slide/slider/component.js should pass jshint.\ndemos/jq-slide/slider/component.js: line 5, col 5, \'$\' is not defined.\n\n1 error'); 
+  });
+
+});
 define('site/tests/demos/md-cardlayout/component.jshint', function () {
 
   'use strict';
@@ -1179,7 +1386,7 @@ catch(err) {
 if (runningTests) {
   require("site/tests/test-helper");
 } else {
-  require("site/app")["default"].create({"name":"site","version":"0.0.0+ee02369b"});
+  require("site/app")["default"].create({"name":"site","version":"0.0.0+bd18373c"});
 }
 
 /* jshint ignore:end */

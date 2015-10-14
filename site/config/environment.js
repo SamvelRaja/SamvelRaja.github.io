@@ -6,15 +6,17 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'hash',
+    /*
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' www.storage.googleapis.com www.maps.googleapis.com",
+      'script-src': "'self' www.storage.googleapis.com www.maps.googleapis.com rawgit.com",
       'font-src': "'self' www.fonts.googleapis.com www.maps.googleapis.com",
       'connect-src': "'self'",
       'img-src': "'self' www.gravatar.com www.maps.googleapis.com",
-      'style-src': "'self' www.fonts.googleapis.com www.storage.googleapis.com",
+      'style-src': "'self' www.fonts.googleapis.com www.storage.googleapis.com rawgit.com",
       'media-src': "'self'"
     },
+    */
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
