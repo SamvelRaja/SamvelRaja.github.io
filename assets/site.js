@@ -103,10 +103,10 @@ define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], fu
         latitude: '12.976299881670053',
         longitude: '80.13112306594849',
         zoom: 7,
-        click: function click(rec_event) {
+        click: function click() {
           self.set('mapMessage', 'map_click');
         },
-        dblclick: function dblclick(rec_event) {
+        dblclick: function dblclick() {
           self.set('mapMessage', 'map_double_click');
         },
         drag: function drag() {
@@ -118,16 +118,16 @@ define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], fu
         dragstart: function dragstart() {
           self.set('mapMessage', 'map_dragstart');
         },
-        mousemove: function mousemove(rec_event) {
+        mousemove: function mousemove() {
           self.set('mapMessage', 'map_mousemove');
         },
-        mouseout: function mouseout(rec_event) {
+        mouseout: function mouseout() {
           self.set('mapMessage', 'map_mouseout');
         },
-        mouseover: function mouseover(rec_event) {
+        mouseover: function mouseover() {
           self.set('mapMessage', 'map_mouseover');
         },
-        rightclick: function rightclick(rec_event) {
+        rightclick: function rightclick() {
           self.set('mapMessage', 'map_rightclick');
         },
         infowindow: {
@@ -216,7 +216,7 @@ define('site/demos/googlemaps/map-component/template', ['exports'], function (ex
         return morphs;
       },
       statements: [
-        ["inline","google-maps-addon",[],["MapOptions",["subexpr","@mut",[["get","inputObj",["loc",[null,[1,31],[1,39]]]]],[],[]]],["loc",[null,[1,0],[1,41]]]],
+        ["inline","google-maps-addon",[],["mapOptions",["subexpr","@mut",[["get","inputObj",["loc",[null,[1,31],[1,39]]]]],[],[]]],["loc",[null,[1,0],[1,41]]]],
         ["content","mapMessage",["loc",[null,[3,2],[3,16]]]]
       ],
       locals: [],
@@ -1210,7 +1210,7 @@ define('site/tests/demos/googlemaps/map-component/component.jshint', function ()
 
   QUnit.module('JSHint - demos/googlemaps/map-component');
   QUnit.test('demos/googlemaps/map-component/component.js should pass jshint', function(assert) { 
-    assert.ok(false, 'demos/googlemaps/map-component/component.js should pass jshint.\ndemos/googlemaps/map-component/component.js: line 10, col 24, \'rec_event\' is defined but never used.\ndemos/googlemaps/map-component/component.js: line 13, col 27, \'rec_event\' is defined but never used.\ndemos/googlemaps/map-component/component.js: line 25, col 28, \'rec_event\' is defined but never used.\ndemos/googlemaps/map-component/component.js: line 28, col 27, \'rec_event\' is defined but never used.\ndemos/googlemaps/map-component/component.js: line 31, col 28, \'rec_event\' is defined but never used.\ndemos/googlemaps/map-component/component.js: line 34, col 29, \'rec_event\' is defined but never used.\n\n6 errors'); 
+    assert.ok(true, 'demos/googlemaps/map-component/component.js should pass jshint.'); 
   });
 
 });
@@ -1240,7 +1240,7 @@ define('site/tests/demos/jq-slide/slider/component.jshint', function () {
 
   QUnit.module('JSHint - demos/jq-slide/slider');
   QUnit.test('demos/jq-slide/slider/component.js should pass jshint', function(assert) { 
-    assert.ok(false, 'demos/jq-slide/slider/component.js should pass jshint.\ndemos/jq-slide/slider/component.js: line 5, col 5, \'$\' is not defined.\n\n1 error'); 
+    assert.ok(true, 'demos/jq-slide/slider/component.js should pass jshint.'); 
   });
 
 });
@@ -1386,7 +1386,7 @@ catch(err) {
 if (runningTests) {
   require("site/tests/test-helper");
 } else {
-  require("site/app")["default"].create({"name":"site","version":"0.0.0+eaad5879"});
+  require("site/app")["default"].create({"name":"site","version":"0.0.0+4bb8fae0"});
 }
 
 /* jshint ignore:end */

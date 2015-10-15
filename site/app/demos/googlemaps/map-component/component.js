@@ -7,10 +7,10 @@ export default Ember.Component.extend({
       latitude : '12.976299881670053',
       longitude : '80.13112306594849',
       zoom : 7,
-      click : function(rec_event){
+      click : function(){
         self.set('mapMessage','map_click');
       },
-      dblclick : function(rec_event){
+      dblclick : function(){
         self.set('mapMessage','map_double_click');
       },
       drag : function(){
@@ -22,16 +22,16 @@ export default Ember.Component.extend({
       dragstart : function(){
         self.set('mapMessage','map_dragstart');
       },
-      mousemove : function(rec_event){
+      mousemove : function(){
         self.set('mapMessage','map_mousemove');
       },
-      mouseout : function(rec_event){
+      mouseout : function(){
         self.set('mapMessage','map_mouseout');
       },
-      mouseover : function(rec_event){
+      mouseover : function(){
         self.set('mapMessage','map_mouseover');
       },
-      rightclick : function(rec_event){
+      rightclick : function(){
         self.set('mapMessage','map_rightclick');
       },
       infowindow : {
