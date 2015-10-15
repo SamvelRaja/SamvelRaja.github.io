@@ -1386,7 +1386,7 @@ catch(err) {
 if (runningTests) {
   require("site/tests/test-helper");
 } else {
-  require("site/app")["default"].create({"name":"site","version":"0.0.0+bd18373c"});
+  require("site/app")["default"].create({"name":"site","version":"0.0.0+eaad5879"});
 }
 
 /* jshint ignore:end */

@@ -87078,20 +87078,22 @@ define('google-maps-addon/components/google-maps-addon', ['exports', 'ember', 'g
   'use strict';
 
   exports['default'] = Ember['default'].Component.extend({
-    didInsertElement: function didInsertElement() {
-      var map_element;
-      //Initializing the options into the context
+    setupMap: Ember['default'].observer('mapOptions', Ember['default'].on('didInsertElement', function () {
+      // Initializing the options into the context
       Helpers['default'].initializeOptions(this);
-      //Checking for the availability of googlemaps js the hero
-      if (window.google) {
-        map_element = Helpers['default'].createMapElement(this);
 
-        //Setting up the map_element in the context
-        if (map_element) {
-          this.set('map_element', map_element);
-          var marker_options = this.get('markerOptions');
+      // Checking for the availability of googlemaps js the hero
+      if (window.google) {
+        var mapElement = Helpers['default'].createMapElement(this);
+
+        // Setting up the mapElement in the context
+        if (mapElement) {
+          this.set('mapElement', mapElement);
+
+          var markerOptions = this.get('markerOptions');
           Helpers['default'].initializeMouseEventCallbacks(this);
-          if (marker_options) {
+
+          if (markerOptions) {
             Helpers['default'].drawAllMarkers(this);
           }
           Helpers['default'].initializeInfowindow(this);
@@ -87099,7 +87101,7 @@ define('google-maps-addon/components/google-maps-addon', ['exports', 'ember', 'g
       } else {
         console.error('Need to include the googlemaps js');
       }
-    }
+    }))
   });
 
 });
@@ -87120,19 +87122,19 @@ define('google-maps-addon/helpers', ['exports', 'ember'], function (exports, Emb
     @method initializeOptions
     @param context
     @usage
-      To initialize the `MapOptions` as `context' properties`
+      To initialize the `mapOptions` as `context' properties`
     **/
     initializeOptions: function initializeOptions(context) {
-      var map_options = context.get('MapOptions');
-      //First preference is to 'markers' array over the 'marker' object
-      var marker_options = map_options.markers;
+      var mapOptions = context.get('mapOptions');
+      // First preference is to 'markers' array over the 'marker' object
+      var markerOptions = mapOptions.markers;
       context.setProperties({
-        latitude: map_options.latitude || '0',
-        longitude: map_options.longitude || '0',
-        zoom: map_options.zoom || 8
+        latitude: mapOptions.latitude || '0',
+        longitude: mapOptions.longitude || '0',
+        zoom: mapOptions.zoom || 8
       });
-      if (marker_options instanceof Array && !Ember['default'].isEmpty(marker_options)) {
-        context.set('markerOptions', marker_options);
+      if (markerOptions instanceof Array && !Ember['default'].isEmpty(markerOptions)) {
+        context.set('markerOptions', markerOptions);
       }
     },
     /**
@@ -87149,23 +87151,22 @@ define('google-maps-addon/helpers', ['exports', 'ember'], function (exports, Emb
         zoom: context.get('zoom'),
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
-      var map_element = context.$('div.map-canvas')[0];
-      var map = new google.maps.Map(map_element, mapOptions);
-      return map;
+      var mapElement = context.$('div.map-canvas')[0];
+      return new google.maps.Map(mapElement, mapOptions);
     },
     /**
     @method initializeMouseEventCallbacks
     @param context
     @usage
-      To initialize the `mouseevents` to the `map_element`
+      To initialize the `mouseevents` to the `mapElement`
     **/
     initializeMouseEventCallbacks: function initializeMouseEventCallbacks(context) {
-      var map_options = context.get('MapOptions');
-      var map_element = context.get('map_element');
+      var mapOptions = context.get('mapOptions');
+      var mapElement = context.get('mapElement');
       mouseEvents.forEach(function (event) {
-        if (map_options[event]) {
-          if (typeof map_options[event] === 'function') {
-            google.maps.event.addListener(map_element, event, map_options[event]);
+        if (mapOptions[event]) {
+          if (typeof mapOptions[event] === 'function') {
+            google.maps.event.addListener(mapElement, event, mapOptions[event]);
           }
         }
       });
@@ -87174,59 +87175,57 @@ define('google-maps-addon/helpers', ['exports', 'ember'], function (exports, Emb
     @method drawAllMarkers
     @param context
     @usage
-      To draw the `markers` to the `map_element`
+      To draw the `markers` to the `mapElement`
     **/
     drawAllMarkers: function drawAllMarkers(context) {
-      var marker_options = context.get('markerOptions');
+      var markerOptions = context.get('markerOptions');
       var markers = [];
       var self = this;
-      for (var i = 0; i < marker_options.length; i++) {
-        markers[i] = self.drawMarker(context, marker_options[i]);
+      for (var i = 0; i < markerOptions.length; i++) {
+        markers[i] = self.drawMarker(context, markerOptions[i]);
       }
       context.set('markers', markers);
     },
     /**
     @method drawMarker
-    @param context,marker_options
+    @param context,markerOptions
     @usage
-      To draw the `marker` to the `map_element`
+      To draw the `marker` to the `mapElement`
     **/
-    drawMarker: function drawMarker(context, marker_options) {
-      var map_element = context.get('map_element');
-      var latitude = marker_options.latitude || context.get('latitude');
-      var longitude = marker_options.longitude || context.get('longitude');
-      var animationIndex = google.maps.Animation[marker_options.animation] || null;
-      var timeout = marker_options.timeout || 0;
-      var image_path = marker_options.icon || '//mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1';
-      var draggable = marker_options.draggable || false;
-      var self = this;
+    drawMarker: function drawMarker(context, markerOptions) {
+      var mapElement = context.get('mapElement');
+      var latitude = markerOptions.latitude || context.get('latitude');
+      var longitude = markerOptions.longitude || context.get('longitude');
+      var animationIndex = google.maps.Animation[markerOptions.animation] || null;
+      var timeout = markerOptions.timeout || 0;
+      var image_path = markerOptions.icon || '//mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1';
+      var draggable = markerOptions.draggable || false;
       var myLatlng = new google.maps.LatLng(latitude, longitude);
-      var marker;
+      var marker = new google.maps.Marker({
+        position: myLatlng,
+        animation: animationIndex,
+        draggable: draggable,
+        title: markerOptions.title || '',
+        icon: image_path
+      });
+      marker = this.initializeMarkerMouseEventCallbacks(context, marker, markerOptions);
       window.setTimeout(function () {
-        marker = new google.maps.Marker({
-          position: myLatlng,
-          animation: animationIndex,
-          map: map_element,
-          draggable: draggable,
-          title: marker_options.title || '',
-          icon: image_path
-        });
-        marker = self.initializeMarkerMouseEventCallbacks(context, marker, marker_options);
-        return marker;
+        marker.setMap(mapElement);
       }, timeout);
+      return marker;
     },
 
     /**
     @method initializeMarkerMouseEventCallbacks
-    @param context,marker,marker_options
+    @param context,marker,markerOptions
     @usage
       To initialize the `markermouseevents` to the `marker_obj`
     **/
-    initializeMarkerMouseEventCallbacks: function initializeMarkerMouseEventCallbacks(context, marker, marker_options) {
+    initializeMarkerMouseEventCallbacks: function initializeMarkerMouseEventCallbacks(context, marker, markerOptions) {
       mouseEvents.forEach(function (event) {
-        if (marker_options[event]) {
-          if (typeof marker_options[event] === 'function') {
-            google.maps.event.addListener(marker, event, marker_options[event]);
+        if (markerOptions[event]) {
+          if (typeof markerOptions[event] === 'function') {
+            google.maps.event.addListener(marker, event, markerOptions[event]);
           }
         }
       });
@@ -87239,21 +87238,21 @@ define('google-maps-addon/helpers', ['exports', 'ember'], function (exports, Emb
       To create and the info window
     **/
     initializeInfowindow: function initializeInfowindow(context) {
-      var map_element = context.get('map_element');
-      var map_options = context.get('MapOptions');
-      var info_window_options = map_options.infowindow;
-      if (info_window_options) {
-        var longitude = info_window_options.longitude || context.get('longitude');
-        var latitude = info_window_options.latitude || context.get('latitude');
-        var info_postion = new google.maps.LatLng(latitude, longitude);
-        if (info_window_options instanceof Object && !(info_window_options instanceof Array)) {
+      var mapElement = context.get('mapElement');
+      var mapOptions = context.get('mapOptions');
+      var infoWindowOptions = mapOptions.infowindow;
+      if (infoWindowOptions) {
+        var longitude = infoWindowOptions.longitude || context.get('longitude');
+        var latitude = infoWindowOptions.latitude || context.get('latitude');
+        var infoPostion = new google.maps.LatLng(latitude, longitude);
+        if (infoWindowOptions instanceof Object && !(infoWindowOptions instanceof Array)) {
           var infoWindow = new google.maps.InfoWindow({
-            content: info_window_options.content || 'empty content',
-            position: info_postion,
-            pixelOffset: info_window_options.pixelOffset || undefined,
-            maxWidth: info_window_options.maxWidth || undefined
+            content: infoWindowOptions.content || 'empty content',
+            position: infoPostion,
+            pixelOffset: infoWindowOptions.pixelOffset || undefined,
+            maxWidth: infoWindowOptions.maxWidth || undefined
           });
-          infoWindow.open(map_element);
+          infoWindow.open(mapElement);
         }
       }
     },
