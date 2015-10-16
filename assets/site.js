@@ -97,9 +97,9 @@ define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], fu
   'use strict';
 
   exports['default'] = Ember['default'].Component.extend({
-    doStuffWhenInserted: Ember['default'].on('willRender', function () {
+    inputObj: Ember['default'].computed(function () {
       var self = this;
-      this.set('inputObj', {
+      return {
         latitude: '12.976299881670053',
         longitude: '80.13112306594849',
         zoom: 7,
@@ -160,7 +160,7 @@ define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], fu
           timeout: 4000,
           draggable: false
         }]
-      });
+      };
     })
   });
 
@@ -1386,7 +1386,7 @@ catch(err) {
 if (runningTests) {
   require("site/tests/test-helper");
 } else {
-  require("site/app")["default"].create({"name":"site","version":"0.0.0+4bb8fae0"});
+  require("site/app")["default"].create({"name":"site","version":"0.0.0+3020fa56"});
 }
 
 /* jshint ignore:end */

@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  doStuffWhenInserted: Ember.on('willRender', function() {
+  inputObj: Ember.computed(function() {
     var self = this;
-    this.set('inputObj',{
+    return {
       latitude : '12.976299881670053',
       longitude : '80.13112306594849',
       zoom : 7,
@@ -67,6 +67,6 @@ export default Ember.Component.extend({
           draggable : false
         }
      ]
-   });
+   };
  })
   });
