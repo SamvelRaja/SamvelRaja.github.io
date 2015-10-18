@@ -1,4 +1,23 @@
-{{google-maps-addon mapOptions=inputObj}}
-<div class="map-message">
-  {{mapMessage}}
+<div class="mdl-cell mdl-cell--6-col">
+  {{google-maps-addon mapOptions=inputObj number=number}}
+</div>
+<div class="mdl-cell mdl-cell--6-col">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    {{input class="mdl-textfield__input" value=longitude}}
+    <label class="mdl-textfield__label" >Longitude</label>
+  </div>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    {{input class="mdl-textfield__input" value=latitude}}
+    <label class="mdl-textfield__label">Latitude</label>
+  </div>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    {{input class="mdl-textfield__input" value=zoom}}
+    <label class="mdl-textfield__label" >Zoom</label>
+  </div>
+  <div class="mdl-textfield mdl-js-textfield">
+    {{textarea class="mdl-textfield__input" value=infoWindowtext}}
+    <label class="mdl-textfield__label" for="sample5">InfoWindow text</label>
+  </div>
+<h2>Copy Code </h2>
+  {{highlight-js code=inputObjString lang="javascript" hasLineNumbers=false}}
 </div>

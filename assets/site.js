@@ -24,7 +24,10 @@ define('site/app', ['exports', 'ember', 'ember/resolver', 'ember/load-initialize
     modulePrefix: config['default'].modulePrefix,
     podModulePrefix: config['default'].podModulePrefix,
     Resolver: Resolver['default'],
-    currentPath: ''
+    currentPath: '',
+    ready: function ready() {
+      $('#loader').remove();
+    }
   });
 
   loadInitializers['default'](App, config['default'].modulePrefix);
@@ -58,6 +61,13 @@ define('site/components/gravatar-image', ['exports', 'ember-cli-gravatar/compone
 	'use strict';
 
 	exports['default'] = gravatarImage['default'];
+
+});
+define('site/components/highlight-js', ['exports', 'ember-highlight-js/component'], function (exports, Component) {
+
+	'use strict';
+
+	exports['default'] = Component['default'].extend();
 
 });
 define('site/controllers/application', ['exports', 'ember'], function (exports, Ember) {
@@ -97,12 +107,17 @@ define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], fu
   'use strict';
 
   exports['default'] = Ember['default'].Component.extend({
-    inputObj: Ember['default'].computed(function () {
+    latitude: '12.976299881670053',
+    longitude: '80.13112306594849',
+    zoom: 7,
+    number: 1,
+    infoWindowtext: "<div>InfoWindow</div>",
+    inputObj: Ember['default'].computed('zoom', 'latitude', 'longitude', 'infoWindowtext', function () {
       var self = this;
       return {
-        latitude: '12.976299881670053',
-        longitude: '80.13112306594849',
-        zoom: 7,
+        latitude: self.get('latitude'),
+        longitude: self.get('longitude'),
+        zoom: Number(self.get('zoom')),
         click: function click() {
           self.set('mapMessage', 'map_click');
         },
@@ -131,14 +146,14 @@ define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], fu
           self.set('mapMessage', 'map_rightclick');
         },
         infowindow: {
-          content: '<div>Info window</div>',
+          content: this.get('infoWindowtext'),
           latitude: '11.976299881670053',
-          longitude: '80.13112306594849',
+          longitude: self.get('longitude'),
           maxWidth: 500
         },
         markers: [{
-          latitude: '12.976299881670053',
-          longitude: '80.13112306594849',
+          latitude: self.get('latitude'),
+          longitude: self.get('longitude'),
           title: 'first marker',
           click: function click(rec_event) {
             self.set('mapMessage', 'Marker_1_click' + rec_event);
@@ -150,8 +165,8 @@ define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], fu
             content: '<div>Marker 1</div>'
           }
         }, {
-          latitude: '13.976299881670053',
-          longitude: '80.13112306594849',
+          latitude: self.get('latitude'),
+          longitude: self.get('longitude'),
           title: 'first marker',
           click: function click(rec_event) {
             self.set('mapMessage', 'Marker_2_Click' + rec_event);
@@ -161,6 +176,9 @@ define('site/demos/googlemaps/map-component/component', ['exports', 'ember'], fu
           draggable: false
         }]
       };
+    }),
+    inputObjString: Ember['default'].computed('inputObj', function () {
+      return JSON.stringify(this.get('inputObj'), null, 2);
     })
   });
 
@@ -180,7 +198,7 @@ define('site/demos/googlemaps/map-component/template', ['exports'], function (ex
             "column": 0
           },
           "end": {
-            "line": 5,
+            "line": 24,
             "column": 0
           }
         },
@@ -191,12 +209,98 @@ define('site/demos/googlemaps/map-component/template', ['exports'], function (ex
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createComment("");
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","mdl-cell mdl-cell--6-col");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"class","map-message");
+        dom.setAttribute(el1,"class","mdl-cell mdl-cell--6-col");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","mdl-textfield mdl-js-textfield mdl-textfield--floating-label");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        dom.setAttribute(el3,"class","mdl-textfield__label");
+        var el4 = dom.createTextNode("Longitude");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","mdl-textfield mdl-js-textfield mdl-textfield--floating-label");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        dom.setAttribute(el3,"class","mdl-textfield__label");
+        var el4 = dom.createTextNode("Latitude");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","mdl-textfield mdl-js-textfield mdl-textfield--floating-label");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        dom.setAttribute(el3,"class","mdl-textfield__label");
+        var el4 = dom.createTextNode("Zoom");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","mdl-textfield mdl-js-textfield");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        dom.setAttribute(el3,"class","mdl-textfield__label");
+        dom.setAttribute(el3,"for","sample5");
+        var el4 = dom.createTextNode("InfoWindow text");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h2");
+        var el3 = dom.createTextNode("Copy Code ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
@@ -209,15 +313,23 @@ define('site/demos/googlemaps/map-component/template', ['exports'], function (ex
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
-        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
-        dom.insertBoundary(fragment, 0);
+        var element0 = dom.childAt(fragment, [2]);
+        var morphs = new Array(6);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]),1,1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]),1,1);
+        morphs[2] = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        morphs[3] = dom.createMorphAt(dom.childAt(element0, [5]),1,1);
+        morphs[4] = dom.createMorphAt(dom.childAt(element0, [7]),1,1);
+        morphs[5] = dom.createMorphAt(element0,11,11);
         return morphs;
       },
       statements: [
-        ["inline","google-maps-addon",[],["mapOptions",["subexpr","@mut",[["get","inputObj",["loc",[null,[1,31],[1,39]]]]],[],[]]],["loc",[null,[1,0],[1,41]]]],
-        ["content","mapMessage",["loc",[null,[3,2],[3,16]]]]
+        ["inline","google-maps-addon",[],["mapOptions",["subexpr","@mut",[["get","inputObj",["loc",[null,[2,33],[2,41]]]]],[],[]],"number",["subexpr","@mut",[["get","number",["loc",[null,[2,49],[2,55]]]]],[],[]]],["loc",[null,[2,2],[2,57]]]],
+        ["inline","input",[],["class","mdl-textfield__input","value",["subexpr","@mut",[["get","longitude",["loc",[null,[6,47],[6,56]]]]],[],[]]],["loc",[null,[6,4],[6,58]]]],
+        ["inline","input",[],["class","mdl-textfield__input","value",["subexpr","@mut",[["get","latitude",["loc",[null,[10,47],[10,55]]]]],[],[]]],["loc",[null,[10,4],[10,57]]]],
+        ["inline","input",[],["class","mdl-textfield__input","value",["subexpr","@mut",[["get","zoom",["loc",[null,[14,47],[14,51]]]]],[],[]]],["loc",[null,[14,4],[14,53]]]],
+        ["inline","textarea",[],["class","mdl-textfield__input","value",["subexpr","@mut",[["get","infoWindowtext",["loc",[null,[18,50],[18,64]]]]],[],[]]],["loc",[null,[18,4],[18,66]]]],
+        ["inline","highlight-js",[],["code",["subexpr","@mut",[["get","inputObjString",["loc",[null,[22,22],[22,36]]]]],[],[]],"lang","javascript","hasLineNumbers",false],["loc",[null,[22,2],[22,77]]]]
       ],
       locals: [],
       templates: []
@@ -285,7 +397,7 @@ define('site/demos/googlemaps/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["content","demos/googlemaps/map-component",["loc",[null,[1,0],[1,34]]]]
+        ["inline","demos/googlemaps/map-component",[],["class","mdl-grid "],["loc",[null,[1,0],[1,52]]]]
       ],
       locals: [],
       templates: []
@@ -620,7 +732,7 @@ define('site/demos/template', ['exports'], function (exports) {
               "column": 0
             },
             "end": {
-              "line": 14,
+              "line": 16,
               "column": 0
             }
           },
@@ -631,26 +743,33 @@ define('site/demos/template', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createComment("");
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1,"class","mdl-grid demo-content");
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
+          var el1 = dom.createTextNode("                      \n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [0]);
           var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
-          morphs[1] = dom.createMorphAt(fragment,2,2,contextualElement);
-          dom.insertBoundary(fragment, 0);
+          morphs[0] = dom.createMorphAt(element0,1,1);
+          morphs[1] = dom.createMorphAt(element0,3,3);
           return morphs;
         },
         statements: [
-          ["inline","demos/md-cardlayout",[],["title","Google Maps Ember Addon","description","An Ember addon which is a simple wrapper around the googlemaps.js for easy usage in an ember application","button-link-label","View Demo","material-icon","share","custom_class","demo-card-wide","button-link","/#/demos/googlemaps"],["loc",[null,[2,0],[7,56]]]],
-          ["inline","demos/md-cardlayout",[],["title","Jquery Slider","description","Jquery plugin for a slider component.","button-link-label","View Demo","material-icon","share","custom_class","demo-card-wide jq-card","button-link","/#/demos/jq-slide"],["loc",[null,[8,0],[13,55]]]]
+          ["inline","demos/md-cardlayout",[],["title","Google Maps Ember Addon","description","An Ember addon which is a simple wrapper around the googlemaps.js for easy usage in an ember application","button-link-label","View Demo","material-icon","share","custom_class","demo-card-wide","button-link","/#/demos/googlemaps"],["loc",[null,[3,0],[8,56]]]],
+          ["inline","demos/md-cardlayout",[],["title","Jquery Slider","description","Jquery plugin for a slider component.","button-link-label","View Demo","material-icon","share","custom_class","demo-card-wide jq-card","button-link","/#/demos/jq-slide"],["loc",[null,[9,0],[14,55]]]]
         ],
         locals: [],
         templates: []
@@ -679,14 +798,7 @@ define('site/demos/template', ['exports'], function (exports) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"class","mdl-cell mdl-cell--6-col");
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
+        var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
@@ -695,13 +807,13 @@ define('site/demos/template', ['exports'], function (exports) {
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var morphs = new Array(2);
         morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
-        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [1]),1,1);
+        morphs[1] = dom.createMorphAt(fragment,1,1,contextualElement);
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
       statements: [
-        ["block","if",[["get","isDetails",["loc",[null,[1,6],[1,15]]]]],[],0,null,["loc",[null,[1,0],[14,7]]]],
-        ["content","outlet",["loc",[null,[16,0],[16,10]]]]
+        ["block","if",[["get","isDetails",["loc",[null,[1,6],[1,15]]]]],[],0,null,["loc",[null,[1,0],[16,7]]]],
+        ["content","outlet",["loc",[null,[17,0],[17,10]]]]
       ],
       locals: [],
       templates: [child0]
@@ -945,7 +1057,7 @@ define('site/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 42,
+            "line": 40,
             "column": 0
           }
         },
@@ -1085,16 +1197,9 @@ define('site/templates/application', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("main");
         dom.setAttribute(el2,"class","mdl-layout__content mdl-color--white");
-        var el3 = dom.createTextNode("\n        ");
+        var el3 = dom.createTextNode("\n          ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3,"class","mdl-grid demo-content");
-        var el4 = dom.createTextNode("\n          ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n      ");
         dom.appendChild(el2, el3);
@@ -1115,7 +1220,7 @@ define('site/templates/application', ['exports'], function (exports) {
         morphs[1] = dom.createMorphAt(dom.childAt(element1, [1]),1,1);
         morphs[2] = dom.createMorphAt(element2,1,1);
         morphs[3] = dom.createMorphAt(element2,3,3);
-        morphs[4] = dom.createMorphAt(dom.childAt(element0, [5, 1]),1,1);
+        morphs[4] = dom.createMorphAt(dom.childAt(element0, [5]),1,1);
         return morphs;
       },
       statements: [
@@ -1123,7 +1228,7 @@ define('site/templates/application', ['exports'], function (exports) {
         ["inline","gravatar-image",[],["email","kingsam91@gmail.com","size",30,"class","demo-avatar","retina",true],["loc",[null,[10,10],[13,40]]]],
         ["block","link-to",["home"],["current-when","home","class","mdl-navigation__link mdl-color-text--grey"],0,null,["loc",[null,[18,10],[18,190]]]],
         ["block","link-to",["demos"],["current-when","demos","class","mdl-navigation__link mdl-color-text--grey"],1,null,["loc",[null,[19,10],[19,197]]]],
-        ["content","outlet",["loc",[null,[38,10],[38,20]]]]
+        ["content","outlet",["loc",[null,[37,10],[37,20]]]]
       ],
       locals: [],
       templates: [child0, child1]
@@ -1167,6 +1272,323 @@ define('site/templates/components/google-maps-addon', ['exports'], function (exp
       buildRenderNodes: function buildRenderNodes() { return []; },
       statements: [
 
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('site/templates/components/highlight-js', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.7",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 3,
+                "column": 4
+              },
+              "end": {
+                "line": 5,
+                "column": 4
+              }
+            },
+            "moduleName": "site/templates/components/highlight-js.hbs"
+          },
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("li");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]),0,0);
+            return morphs;
+          },
+          statements: [
+            ["inline","unbound",[["get","number",["loc",[null,[4,20],[4,26]]]]],[],["loc",[null,[4,10],[4,28]]]]
+          ],
+          locals: ["number"],
+          templates: []
+        };
+      }());
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 0
+            }
+          },
+          "moduleName": "site/templates/components/highlight-js.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("ul");
+          dom.setAttribute(el1,"class","ember-highlight-line-numbers");
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]),1,1);
+          return morphs;
+        },
+        statements: [
+          ["block","each",[["get","lineNumbers",["loc",[null,[3,22],[3,33]]]]],[],0,null,["loc",[null,[3,4],[5,13]]]]
+        ],
+        locals: [],
+        templates: [child0]
+      };
+    }());
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 11,
+            "column": 0
+          }
+        },
+        "moduleName": "site/templates/components/highlight-js.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("pre");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        morphs[1] = dom.createUnsafeMorphAt(dom.childAt(fragment, [1]),1,1);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [
+        ["block","if",[["get","hasLineNumbers",["loc",[null,[1,6],[1,20]]]]],[],0,null,["loc",[null,[1,0],[7,7]]]],
+        ["content","highlight",["loc",[null,[9,2],[9,17]]]]
+      ],
+      locals: [],
+      templates: [child0]
+    };
+  }()));
+
+});
+define('site/templates/index', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.7",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 32,
+            "column": 0
+          }
+        },
+        "moduleName": "site/templates/index.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","row");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","page-header");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h1");
+        var el4 = dom.createTextNode("eg-code-highlight");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("p");
+        dom.setAttribute(el2,"class","lead");
+        var el3 = dom.createTextNode("A quick and easy to use code highlighting component for Ember using ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("a");
+        dom.setAttribute(el3,"href","https://highlightjs.org/");
+        var el4 = dom.createTextNode("highlight.js");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(".");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","row");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h2");
+        var el3 = dom.createTextNode("Installation");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("p");
+        var el3 = dom.createTextNode("To install ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("code");
+        var el4 = dom.createTextNode("eg-code-highlight");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" simply run ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("code");
+        var el4 = dom.createTextNode("npm install ember-cli-eg-code-highlight --save-dev");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(".");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","row");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h2");
+        var el3 = dom.createTextNode("Use");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("p");
+        var el3 = dom.createTextNode("\n    Using ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("code");
+        var el4 = dom.createTextNode("eg-code-highlight");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" is incredibly easy!\n    The ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("code");
+        var el4 = dom.createTextNode("eg-code-highlight");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" component takes too arguments: ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("code");
+        var el4 = dom.createTextNode("code");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" and ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("code");
+        var el4 = dom.createTextNode("language");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(".\n    To create this, in your template you can do this.\n\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("p");
+        var el3 = dom.createTextNode("\n    This works for multiple languages, the controller for this example is:\n\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [4]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [3]),9,9);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [5]),1,1);
+        return morphs;
+      },
+      statements: [
+        ["inline","eg-code-highlight",[],["code",["subexpr","@mut",[["get","codeHighlightExample",["loc",[null,[23,29],[23,49]]]]],[],[]],"language","hbs"],["loc",[null,[23,4],[23,66]]]],
+        ["inline","eg-code-highlight",[],["code",["subexpr","@mut",[["get","controllerCode",["loc",[null,[29,29],[29,43]]]]],[],[]],"language","js"],["loc",[null,[29,4],[29,59]]]]
       ],
       locals: [],
       templates: []
@@ -1386,7 +1808,7 @@ catch(err) {
 if (runningTests) {
   require("site/tests/test-helper");
 } else {
-  require("site/app")["default"].create({"name":"site","version":"0.0.0+3020fa56"});
+  require("site/app")["default"].create({"name":"site","version":"0.0.0+9eb77727"});
 }
 
 /* jshint ignore:end */

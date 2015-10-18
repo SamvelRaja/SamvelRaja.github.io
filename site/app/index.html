@@ -6,9 +6,7 @@
     <title>SamvelRaja</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     {{content-for 'head'}}
-
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/site.css">
     <link rel="stylesheet" href="assets/iconmoon.css">
@@ -20,13 +18,11 @@
     <script src="assets/vendor.js"></script>
     <script src="assets/site.js"></script>
     <script src="https://rawgit.com/SamvelRaja/jqSlide/master/js/jqSlide.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
     {{content-for 'head-footer'}}
   </head>
   <body>
-    {{content-for 'body'}}
-
-
-
-    {{content-for 'body-footer'}}
+    <div id="loader" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
   </body>
 </html>

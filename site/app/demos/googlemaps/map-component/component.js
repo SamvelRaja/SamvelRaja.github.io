@@ -1,12 +1,17 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  inputObj: Ember.computed(function() {
+  latitude: '12.976299881670053',
+  longitude: '80.13112306594849',
+  zoom: 7,
+  number : 1,
+  infoWindowtext: "<div>InfoWindow</div>",
+  inputObj: Ember.computed('zoom','latitude','longitude', 'infoWindowtext', function() {
     var self = this;
     return {
-      latitude : '12.976299881670053',
-      longitude : '80.13112306594849',
-      zoom : 7,
+      latitude : self.get('latitude'),
+      longitude : self.get('longitude'),
+      zoom : Number(self.get('zoom')),
       click : function(){
         self.set('mapMessage','map_click');
       },
@@ -35,15 +40,15 @@ export default Ember.Component.extend({
         self.set('mapMessage','map_rightclick');
       },
       infowindow : {
-        content : '<div>Info window</div>',
+        content : this.get('infoWindowtext'),
         latitude : '11.976299881670053',
-        longitude : '80.13112306594849',
+        longitude : self.get('longitude'),
         maxWidth : 500,
       },
       markers :[
         {
-          latitude : '12.976299881670053',
-          longitude : '80.13112306594849',
+          latitude : self.get('latitude'),
+          longitude : self.get('longitude'),
           title : 'first marker',
           click : function(rec_event){
             self.set('mapMessage','Marker_1_click' + rec_event);
@@ -56,8 +61,8 @@ export default Ember.Component.extend({
           }
         },
         {
-          latitude : '13.976299881670053',
-          longitude : '80.13112306594849',
+          latitude : self.get('latitude'),
+          longitude : self.get('longitude'),
           title : 'first marker',
           click : function(rec_event){
             self.set('mapMessage','Marker_2_Click' + rec_event);
@@ -68,5 +73,8 @@ export default Ember.Component.extend({
         }
      ]
    };
+ }),
+ inputObjString : Ember.computed('inputObj', function() {
+   return JSON.stringify(this.get('inputObj'), null, 2);
  })
-  });
+});

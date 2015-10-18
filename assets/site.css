@@ -1,3 +1,6 @@
+.mdl-progress{
+  margin: 25% auto;
+}
 .demo-card-wide > .mdl-card__title {
   color: #4A148C;
   height: 176px;
@@ -196,4 +199,11 @@ _:-ms-input-placeholder, :root .demo-graph {
   float:left;
   font-size:20px;
   padding:20px;
+}
+.map-message pre code{
+  display: block;
+height: 16em;
+padding: 1em;
+overflow-y: auto;
+overflow-x: hidden;
 }

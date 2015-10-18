@@ -11,7 +11,10 @@ App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver: Resolver,
-  currentPath:''
+  currentPath:'',
+  ready() {
+    $('#loader').remove();
+  }
 });
 
 loadInitializers(App, config.modulePrefix);
